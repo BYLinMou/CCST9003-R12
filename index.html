@@ -13,60 +13,25 @@
         <p>Smart Seat Recommendation System</p>
     </header>
 
-    <main class="container">
-        <form class="search-form" id="routeForm">
-            <div class="input-group">
-                <label for="busRoute">Bus Route</label>
-                <input type="text" id="busRoute" placeholder="e.g., 26A" required>
-            </div>
-
-            <div class="input-group">
-                <label for="startStop">Starting Stop</label>
-                <select id="startStop" required>
-                    <option value="">Select starting stop</option>
-                </select>
-            </div>
-
-            <div class="input-group">
-                <label for="endStop">Destination Stop</label>
-                <select id="endStop" required>
-                    <option value="">Select destination stop</option>
-                </select>
-            </div>
-
-            <div class="input-group">
-                <label for="preference">Sunlight Preference</label>
-                <select id="preference" required>
-                    <option value="min">Minimize sunlight</option>
-                    <option value="max">Maximize sunlight</option>
-                </select>
-            </div>
-
-            <button type="submit" class="submit-btn">Get Recommendation</button>
-        </form>
-
-        <div class="result" id="result"></div>
     </main>
 
     <nav class="bottom-nav">
-        <a href="#" class="nav-item active">
+        <a href="index.html" class="nav-item active">
             <i class="fas fa-home"></i>
             <span>Home</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="search.html" class="nav-item">
             <i class="fas fa-search"></i>
             <span>Search</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="history.html" class="nav-item">
             <i class="fas fa-history"></i>
             <span>History</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="profile.html" class="nav-item">
             <i class="fas fa-user"></i>
             <span>Profile</span>
         </a>
     </nav>
-
-    <script src="script.js"></script>
 </body>
 </html>
