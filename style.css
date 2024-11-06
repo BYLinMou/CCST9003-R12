@@ -66,6 +66,18 @@ body {
     font-size: 16px;
 }
 
+.horizontal-input-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.horizontal-input-group label,
+.horizontal-input-group input {
+    width: auto;
+    margin-bottom: 0;
+}
+
 .submit-btn {
     width: 100%;
     padding: 12px;
