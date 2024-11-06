@@ -11,6 +11,22 @@ body {
     padding-bottom: 30px; /* Add padding to prevent content from being hidden by bottom nav */
 }
 
+.welcome-message {
+    max-width: 700px;
+    margin: 0 auto;
+    background: white;
+    padding: 16px;
+    border-radius: 8px;
+    margin: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+    line-height: 1.3;
+}
+
+.welcome-message p {
+    margin-bottom: 15px;
+}
+
 .container {
     max-width: 600px;
     margin: 0 auto;
