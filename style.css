@@ -93,7 +93,7 @@ body {
 /* Bottom Navigation Styles */
 .bottom-nav {
     position: fixed;
-    bottom: 8px;
+    bottom: 0px;
     left: 0;
     right: 0;
     width: 100%;
@@ -112,7 +112,7 @@ body {
     text-decoration: none;
     color: #666;
     font-size: 13px;
-    margin-bottom: 2px;
+    margin-bottom: 10px;
 }
 
 .nav-item i {
