@@ -54,14 +54,19 @@
                     <label for="useNow">Use current time</label>
                 </div>
 
-                <div id="departureTimeContainer" style="display: none;">
-                    <input type="datetime-local" id="departureTime" name="departureTime">
-                </div>
+                <input type="datetime-local" id="departureTime" name="departureTime">
 
                 <script>
                     function toggleDepartureTime(useNow) {
-                        const customTimeContainer = document.getElementById('departureTimeContainer');
-                        customTimeContainer.style.display = useNow ? 'none' : 'block';
+                        // const customTimeContainer = document.getElementById('departureTimeContainer');
+                        // customTimeContainer.style.display = useNow ? 'none' : 'block';
+                        const dateTimeControl = document.getElementById('departureTime');
+                        dateTimeControl.disabled = useNow;
+                        if (useNow) {
+                            const now = new Date();
+                            const nowString = now.toISOString().slice(0, 16);
+                            dateTimeControl.value = nowString;
+                        }
                     }
                 </script>
             </div>

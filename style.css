@@ -64,6 +64,7 @@ body {
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 16px;
+    padding-left: 16px;
 }
 
 .horizontal-input-group {
@@ -76,6 +77,7 @@ body {
 .horizontal-input-group input {
     width: auto;
     margin-bottom: 0;
+    padding-left: 16px;
 }
 
 .submit-btn {
