@@ -42,6 +42,30 @@
                 </select>
             </div>
 
+            <div class="input-group">
+                <label>Departure time</label>
+                <div class="horizontal-input-group">
+                    <input
+                        type="checkbox" 
+                        id="useNow" 
+                        name="useNow"
+                        onchange="toggleDepartureTime(this.checked)"
+                        checked/>
+                    <label for="useNow">Use current time</label>
+                </div>
+
+                <div id="departureTimeContainer" style="display: none;">
+                    <input type="datetime-local" id="departureTime" name="departureTime">
+                </div>
+
+                <script>
+                    function toggleDepartureTime(useNow) {
+                        const customTimeContainer = document.getElementById('departureTimeContainer');
+                        customTimeContainer.style.display = useNow ? 'none' : 'block';
+                    }
+                </script>
+            </div>
+
             <button type="submit" class="submit-btn">Get Recommendation</button>
         </form>
 
