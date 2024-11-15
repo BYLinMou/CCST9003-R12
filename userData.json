@@ -1,19 +1,17 @@
 {
     "qualified@test.com": {
         "password": "test123",
-        "name": "Test User 1",
+        "name": "TestUser1",
         "qualification": true,
         "preferences": {
-            "seatType": "window",
             "notifications": true
         }
     },
     "unqualified@test.com": {
         "password": "test456",
-        "name": "Test User 2",
+        "name": "TestUser2",
         "qualification": false,
         "preferences": {
-            "seatType": "aisle",
             "notifications": false
         }
     }
