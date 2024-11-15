@@ -92,6 +92,7 @@
             
             if (userData) {
                 // 登入成功
+                errorMessage.style.display = 'none';
                 Auth.login(userData);
                 
                 // 檢查是否需要重定向
