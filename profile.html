@@ -15,12 +15,44 @@
         <p>Smart Seat Recommendation System</p>
     </header>
 
+    <style>
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-left: 2px;
+            margin-bottom: 2px;
+            vertical-align: middle;
+        }
+        
+        .status-dot.approved {
+            background-color: #4CAF50;
+            box-shadow: 0 0 3px #4CAF50;
+        }
+        
+        .status-dot.pending {
+            background-color: #f44336;
+            box-shadow: 0 0 3px #f44336;
+        }
+    </style>
+
     <main>
         <div class="container" >
             <div class="welcome-message">
                 <img id="profilePhoto" style="width: 100px; height:100px; border: 3px solid black;">
-                <p id="userName"></p>
-                <p id="qualification"></p>
+                <p>
+                    <span id="userName"></span>
+                    <span id="qualificationDot" class="status-dot"></span>
+                </p>
+                <div id="uploadSection" class="upload-section">
+                    <p>Upload medical record certificate:<br>
+                    <span class="qualification-info" style="font-size: 0.9em; color:grey">(Accept format: pdf/jpg/jpeg/png, max 5MB)</span></p>
+                    <input type="file" id="medicalDoc" accept=".pdf,.jpg,.jpeg,.png">
+                    <!-- <button class="upload-btn" onclick="document.getElementById('medicalDoc').click()">Confirm</button> -->
+                    <div id="fileName" class="file-name"></div>
+                    <button>Confirm</button>
+                </div>
                 <button id="logout">LOGOUT</button>
             </div>
         </div>
@@ -38,14 +70,17 @@
             
             // 如果已登入，獲取並顯示用戶資料
             const userData = Auth.getUserData();
+            const qualificationDot = document.getElementById('qualificationDot');
+            const uploadSection = document.getElementById('uploadSection');
             // 將用戶資料顯示在頁面上
             if (userData) {
                 document.getElementById('userName').textContent = `· ${userData.name} ·`;
                 document.getElementById('profilePhoto').src = userData.profilePhoto;
                 if (userData.qualification){
-                    document.getElementById('qualification').textContent = "Approved."
+                    qualificationDot.classList.add('approved');
+                    uploadSection.style.display = 'none';
                 } else if (!userData.qualification){
-
+                    qualificationDot.classList.add('pending');
                 }
             };
 
