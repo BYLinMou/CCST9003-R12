@@ -19,7 +19,6 @@
         <div class="container" >
             <div class="welcome-message">
                 <p id="userName"></p>
-                <button id="switchUser">SWITCH USER</button>
                 <button id="logout">LOGOUT</button>
             </div>
         </div>
@@ -43,12 +42,6 @@
                 document.getElementById('userName').textContent = userData.name;
                 // 顯示其他用戶資料...
             };
-
-            document.getElementById("switchUser").addEventListener('click', function(){
-                console.log("Switch User.");
-                Auth.logout();
-                window.location.href = 'anonymous.html';
-            });
 
             document.getElementById("logout").addEventListener('click', function(){
                 console.log("logout.");
