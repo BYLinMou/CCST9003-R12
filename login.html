@@ -96,24 +96,32 @@
             const errorMessage = document.getElementById('errorMessage');
 
             // 檢查用戶憑證 (現在是異步的)
-            const userData = await Auth.checkCredentials(email, password);
-            
-            if (userData) {
-                // 登入成功
-                errorMessage.style.display = 'none';
-                Auth.login(userData);
+            try{
+                const userData = await Auth.checkCredentials(email, password);
                 
-                // 檢查是否需要重定向
-                const params = new URLSearchParams(window.location.search);
-                const redirectUrl = params.get('redirect') || 'profile.html';
-                window.location.href = redirectUrl;
-            } else {
-                // 登入失敗
-                errorMessage.innerText = "Invalid email or password";
+                if (userData) {
+                    // 登入成功
+                    errorMessage.style.display = 'none';
+                    Auth.login(userData);
+                    
+                    /* 檢查是否需要重定向
+                    const params = new URLSearchParams(window.location.search);
+                    const redirectUrl = params.get('redirect') || 'profile.html';
+                    window.location.href = redirectUrl;
+                    */
+                    window.location.href = 'profile.html';
+                } else {
+                    // 登入失敗
+                    errorMessage.innerText = "Invalid email or password";
+                }
+            } catch(error){
+                errorMessage.innerText = `${error}`;
             }
         });
         document.getElementById("cancel").addEventListener('click', function(){
-            window.location.href = 'anonymous.html';
+            const params = new URLSearchParams(window.location.search);
+            const redirectUrl = params.get('redirect') || 'anonymous.html';
+            window.location.href = redirectUrl;
         });
     </script>
 </body>

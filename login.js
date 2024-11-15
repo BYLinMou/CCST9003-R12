@@ -11,6 +11,7 @@ class Auth {
             if (user && user.password === password) {
                 // 複製用戶數據（使用展開運算符...）
                 const userData = {...user};
+                console.log(`Log in: ${userData.name}`)
                 // 刪除密碼（不存儲敏感信息）
                 delete userData.password;
                 // 返回用戶數據
