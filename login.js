@@ -1,17 +1,24 @@
 class Auth {
     // 方法1：檢查用戶名密碼是否正確
-    static checkCredentials(email, password) {
+    static async checkCredentials(email, password) {
         // 從測試用戶數據中找到對應email的用戶
-        const user = TEST_USERS[email];
-        
-        // 如果找到用戶且密碼正確
-        if (user && user.password === password) {
-            // 複製用戶數據（使用展開運算符...）
-            const userData = {...user};
-            // 刪除密碼（不存儲敏感信息）
-            delete userData.password;
-            // 返回用戶數據
-            return userData;
+        try{
+            const response = await fetch('userData.json');
+            const users = await response.json();
+            const user = users[email];
+            
+            // 如果找到用戶且密碼正確
+            if (user && user.password === password) {
+                // 複製用戶數據（使用展開運算符...）
+                const userData = {...user};
+                // 刪除密碼（不存儲敏感信息）
+                delete userData.password;
+                // 返回用戶數據
+                return userData;
+            }
+        } catch (error) {
+            console.error('Error checking credentials:', error);
+            return null;
         }
         // 如果驗證失敗，返回null
         return null;
