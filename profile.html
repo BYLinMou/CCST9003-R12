@@ -33,13 +33,19 @@
             document.getElementById('userName').textContent = userData.name;
             // 顯示其他用戶資料...
         }
+
+        document.getElementById("logout").addEventListener('click', function(){
+            Auth.logout();
+        })
     });
     </script>
 
     <main>
         <div class="container" >
-            <p id="userName"></p>
-            <button id="logout">login</button>
+            <div class="welcome-message">
+                <p id="userName"></p>
+                <button id="logout">LOGOUT</button>
+            </div>
         </div>
     </main>
 
