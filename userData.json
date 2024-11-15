@@ -2,6 +2,7 @@
     "qualified@test.com": {
         "password": "test123",
         "name": "TestUser1",
+        "profilePhoto":"user.jpeg",
         "qualification": true,
         "preferences": {
             "notifications": true
@@ -10,6 +11,7 @@
     "unqualified@test.com": {
         "password": "test456",
         "name": "TestUser2",
+        "profilePhoto":"user.png",
         "qualification": false,
         "preferences": {
             "notifications": false

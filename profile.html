@@ -18,7 +18,9 @@
     <main>
         <div class="container" >
             <div class="welcome-message">
+                <img id="profilePhoto" style="width: 100px; height:100px; border: 3px solid black;">
                 <p id="userName"></p>
+                <p id="qualification"></p>
                 <button id="logout">LOGOUT</button>
             </div>
         </div>
@@ -36,11 +38,15 @@
             
             // 如果已登入，獲取並顯示用戶資料
             const userData = Auth.getUserData();
-            // 這裡可以將用戶資料顯示在頁面上
-            // 例如：
+            // 將用戶資料顯示在頁面上
             if (userData) {
-                document.getElementById('userName').textContent = userData.name;
-                // 顯示其他用戶資料...
+                document.getElementById('userName').textContent = `· ${userData.name} ·`;
+                document.getElementById('profilePhoto').src = userData.profilePhoto;
+                if (userData.qualification){
+                    document.getElementById('qualification').textContent = "Approved."
+                } else if (!userData.qualification){
+
+                }
             };
 
             document.getElementById("logout").addEventListener('click', function(){
