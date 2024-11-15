@@ -15,11 +15,20 @@
         <p>Smart Seat Recommendation System</p>
     </header>
 
+    <main>
+        <div class="container" >
+            <div class="welcome-message">
+                <p id="userName"></p>
+                <button id="logout">LOGOUT</button>
+            </div>
+        </div>
+    </main>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
         // 使用之前定義的 Auth 類來檢查登入狀態
         if (!Auth.isLoggedIn()) {
-            // 如果未登入，重定向到登入頁面
+            // 如果未登入，重定向到匿名頁面
             // 將當前頁面的 URL 作為參數傳遞，這樣登入後可以回到 profile 頁面
             window.location.href = `anonymous.html?redirect=${encodeURIComponent('anonymous.html')}`;
             return;
@@ -37,17 +46,8 @@
         document.getElementById("logout").addEventListener('click', function(){
             Auth.logout();
         })
-    });
+        });
     </script>
-
-    <main>
-        <div class="container" >
-            <div class="welcome-message">
-                <p id="userName"></p>
-                <button id="logout">LOGOUT</button>
-            </div>
-        </div>
-    </main>
 
     <nav class="bottom-nav">
         <a href="index.html" class="nav-item">
