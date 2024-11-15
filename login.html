@@ -97,7 +97,7 @@
                 
                 // 檢查是否需要重定向
                 const params = new URLSearchParams(window.location.search);
-                const redirectUrl = params.get('redirect') || 'index.html';
+                const redirectUrl = params.get('redirect') || 'profile.html';
                 window.location.href = redirectUrl;
             } else {
                 // 登入失敗
