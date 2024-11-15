@@ -44,7 +44,7 @@
         button {
             width: 100%;
             padding: 10px;
-            background-color: #4CAF50;
+            background-color: #1976d2f5;
             color: white;
             border: none;
             border-radius: 4px;
@@ -52,7 +52,7 @@
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color:  #3991e9cc;
         }
 
         .error-message {
@@ -75,6 +75,7 @@
                 <input type="password" id="password" required>
             </div>
             <button type="submit">Login</button>
+            <button type="cancel">Cancel</button>
             <p id="errorMessage" class="error-message">Invalid email or password</p>
         </form>
     </div>
@@ -103,6 +104,9 @@
                 // 登入失敗
                 errorMessage.style.display = 'block';
             }
+        });
+        document.getElementById("cancel").addEventListener('click', function(){
+            window.location.href = 'anonymous.html';
         });
     </script>
 </body>

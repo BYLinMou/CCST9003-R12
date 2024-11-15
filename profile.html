@@ -26,28 +26,28 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-        // 使用之前定義的 Auth 類來檢查登入狀態
-        if (!Auth.isLoggedIn()) {
-            // 如果未登入，重定向到匿名頁面
-            // 將當前頁面的 URL 作為參數傳遞，這樣登入後可以回到 profile 頁面
-            window.location.href = `anonymous.html?redirect=${encodeURIComponent('anonymous.html')}`;
-            return;
-        }
-        
-        // 如果已登入，獲取並顯示用戶資料
-        const userData = Auth.getUserData();
-        // 這裡可以將用戶資料顯示在頁面上
-        // 例如：
-        if (userData) {
-            document.getElementById('userName').textContent = userData.name;
-            // 顯示其他用戶資料...
-        }
+            // 使用之前定義的 Auth 類來檢查登入狀態
+            if (!Auth.isLoggedIn()) {
+                // 如果未登入，重定向到匿名頁面
+                // 將當前頁面的 URL 作為參數傳遞，這樣登入後可以回到 profile 頁面
+                window.location.href = `anonymous.html?redirect=${encodeURIComponent('anonymous.html')}`;
+                return;
+            }
+            
+            // 如果已登入，獲取並顯示用戶資料
+            const userData = Auth.getUserData();
+            // 這裡可以將用戶資料顯示在頁面上
+            // 例如：
+            if (userData) {
+                document.getElementById('userName').textContent = userData.name;
+                // 顯示其他用戶資料...
+            }
 
-        document.getElementById("logout").addEventListener('click', function(){
-            console.log("logout.");
-            Auth.logout();
-            window.location.href = 'anonymous.html';
-        })
+            document.getElementById("logout").addEventListener('click', function(){
+                console.log("logout.");
+                Auth.logout();
+                window.location.href = 'anonymous.html';
+            });
         });
     </script>
 
