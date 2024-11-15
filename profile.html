@@ -35,6 +35,27 @@
             background-color: #f44336;
             box-shadow: 0 0 3px #f44336;
         }
+
+        .upload-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        #logout {
+            background-color: #1976d2f5;
+            color: white;
+            border: 1.7px solid rgba(0, 0, 0, 0.667);
+            padding: 3px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        #logout:hover {
+            background-color:  #3991e9cc;
+        }
     </style>
 
     <main>
@@ -50,7 +71,7 @@
                     <span class="qualification-info" style="font-size: 0.9em; color:grey">(Accept format: pdf/jpg/jpeg/png, max 5MB)</span></p>
                     <input type="file" id="medicalDoc" accept=".pdf,.jpg,.jpeg,.png">
                     <!-- <button class="upload-btn" onclick="document.getElementById('medicalDoc').click()">Confirm</button> -->
-                    <div id="fileName" class="file-name"></div>
+                    <!-- <div id="fileName" class="file-name"></div> -->
                     <button>Confirm</button>
                 </div>
                 <button id="logout">LOGOUT</button>
