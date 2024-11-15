@@ -21,7 +21,7 @@
         if (!Auth.isLoggedIn()) {
             // 如果未登入，重定向到登入頁面
             // 將當前頁面的 URL 作為參數傳遞，這樣登入後可以回到 profile 頁面
-            window.location.href = `login.html?redirect=${encodeURIComponent('login.html')}`;
+            window.location.href = `anonymous.html?redirect=${encodeURIComponent('anonymous.html')}`;
             return;
         }
         
@@ -37,7 +37,10 @@
     </script>
 
     <main>
-        <p id="userName"></p>
+        <div class="container" >
+            <p id="userName"></p>
+            <button id="logout">login</button>
+        </div>
     </main>
 
     <nav class="bottom-nav">

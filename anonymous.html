@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CCST9003-R12</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js"></script>
+</head>
+<body>
+    <header class="header">
+        <h1>Sun Bus</h1>
+        <p>Smart Seat Recommendation System</p>
+    </header>
+
+    <style>
+        .auth-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 20px;
+            align-items: center;
+        }
+
+        .auth-button {
+            padding: 12px 24px;
+            background-color: #1976d2f5;
+            color: white;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            width: 180px; /* 固定寬度 */
+        }
+
+        .auth-button:hover {
+            background-color: #3991e9cc;
+        }
+    </style>
+
+    <main>
+        <div class="container" >
+            <div class="welcome-message auth-buttons">
+                <button id="login" class="auth-button">LOGIN</button>
+                <button id="register" class="auth-button">REGISTER</button>
+                <button id="logout" class="auth-button">LOGOUT</button>
+            </div>
+        </div>
+        <script>
+            document.getElementById('login').addEventListener('click', function(e) {
+                window.location.href = `login.html?redirect=${encodeURIComponent('login.html')}`;
+                return;
+            });
+        </script>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="search.html" class="nav-item">
+            <i class="fas fa-search"></i>
+            <span>Search</span>
+        </a>
+        <a href="history.html" class="nav-item">
+            <i class="fas fa-history"></i>
+            <span>History</span>
+        </a>
+        <a href="profile.html" class="nav-item active">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+</body>
+</html>
