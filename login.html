@@ -55,10 +55,17 @@
             background-color:  #3991e9cc;
         }
 
+        #cancel {
+            background-color: #505050f5;
+        }
+
+        #cancel:hover {
+            background-color: #737373f5;
+        }
+
         .error-message {
             color: red;
             margin-top: 10px;
-            display: none;
         }
     </style>
 </head>
@@ -75,7 +82,7 @@
                 <input type="password" id="password" required>
             </div>
             <button type="submit">Login</button>
-            <p id="errorMessage" class="error-message">Invalid email or password</p>
+            <p id="errorMessage" class="error-message"></p>
             <button id="cancel">Cancel</button>
         </form>
     </div>
@@ -102,7 +109,7 @@
                 window.location.href = redirectUrl;
             } else {
                 // 登入失敗
-                errorMessage.style.display = 'block';
+                errorMessage.innerText = "Invalid email or password";
             }
         });
         document.getElementById("cancel").addEventListener('click', function(){
