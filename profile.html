@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script src="main.js"></script>
+    <script src="userData.json"></script>
+    <script src="login.js"></script>
 </head>
 <body>
     <header class="header">
@@ -13,7 +15,30 @@
         <p>Smart Seat Recommendation System</p>
     </header>
 
-    <main></main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        // 使用之前定義的 Auth 類來檢查登入狀態
+        if (!Auth.isLoggedIn()) {
+            // 如果未登入，重定向到登入頁面
+            // 將當前頁面的 URL 作為參數傳遞，這樣登入後可以回到 profile 頁面
+            window.location.href = `login.html?redirect=${encodeURIComponent('login.html')}`;
+            return;
+        }
+        
+        // 如果已登入，獲取並顯示用戶資料
+        const userData = Auth.getUserData();
+        // 這裡可以將用戶資料顯示在頁面上
+        // 例如：
+        if (userData) {
+            document.getElementById('userName').textContent = userData.name;
+            // 顯示其他用戶資料...
+        }
+    });
+    </script>
+
+    <main>
+        <p id="userName"></p>
+    </main>
 
     <nav class="bottom-nav">
         <a href="index.html" class="nav-item">
