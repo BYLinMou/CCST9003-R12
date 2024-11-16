@@ -31,6 +31,12 @@ body {
     padding: 16px;
 }
 
+.results-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 .header {
     background: #1976d2;
     color: white;
@@ -237,12 +243,18 @@ ul#suggestions li {
 /* Results page */
 
 /* suggestion card */
-.seat-recommendation-card {
+.card {
     background: white;
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 16px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    text-align: center;
+}
+
+.card-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .seat-indicators {
@@ -251,6 +263,11 @@ ul#suggestions li {
     gap: 8px;
     margin-top: 8px;
     margin-bottom: 8px;
+}
+
+h2 {
+    font-size: 16px;
+    color: #1976d2;
 }
 
 .seat-indicators > .seat-indicator {
@@ -263,4 +280,44 @@ ul#suggestions li {
 
 .seat-indicator.active {
     color: #1976d2;
+}
+
+ul#stops-list {
+    list-style: none;
+    margin-top: 8px;
+    padding-left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    z-index: 3;
+}
+
+ul#stops-list > li {
+    display: flex;
+    gap: 8px;
+}
+
+ul#stops-list > li > span.stop-dot {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    border-color: #1976d2;
+    background: white;;
+    border-width:3px;
+    border-style: solid;
+    box-sizing: border-box;
+    margin-top: 4px;
+    z-index: 3;
+}
+
+.stops-connecting-line {
+    height: 0; /* To be set by javascript */
+    background-color: red;
+    width: 6px;
+    position: absolute;
+    margin-top: 12px;
+    margin-left: 21px;
+    margin-bottom: 12px;
+    z-index: 0;
 }
