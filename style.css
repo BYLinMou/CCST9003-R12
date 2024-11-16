@@ -270,6 +270,28 @@ h2 {
     color: #1976d2;
 }
 
+#colour-legends {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.legend {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.colour-circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
 .seat-indicators > .seat-indicator {
     font-size: 40px;
 }

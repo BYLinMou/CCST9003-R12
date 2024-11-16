@@ -44,6 +44,20 @@
 
         <div class="exposure-visualiser card">
             <h2>Exposure Overview</h2>
+            <div id="colour-legends">
+                <div class="legend">
+                    <span class="colour-circle" style="background-color: #1976d2;"></span>
+                    <span class="legend-name">Sun on Left Side</span>
+                </div>
+                <div class="legend">
+                    <span class="colour-circle" style="background-color: #f57c00;"></span>
+                    <span class="legend-name">Sun on Right Side</span>
+                </div>
+                <div class="legend">
+                    <span class="colour-circle" style="background-color: #666;"></span>
+                    <span class="legend-name">In Shadow</span>
+                </div>
+            </div>
             <div class="stops-container" id="stops-container">
                 <span class="stops-connecting-line"></span>
                 <script>
@@ -88,8 +102,8 @@
                             [30, IN_SHADES],
                             [35, SUN_ON_RIGHT],
                             [40, SUN_ON_LEFT],
-                            [73, SUN_ON_RIGHT],
-                            [87, IN_SHADES],
+                            [73, IN_SHADES],
+                            [87, SUN_ON_LEFT],
                             [100, SUN_ON_LEFT]
                         ];
                         // set the colour of connecting line accorging to exposure map
@@ -97,6 +111,8 @@
                         exposureMap.forEach(([percentage, color], index) => {
                             if (index === 0) {
                                 gradient += `, ${color}`;
+                            } else if (index === exposureMap.length - 1) {
+                                gradient += `, ${exposureMap[index - 1][1]} ${percentage}%, ${color}`;
                             } else {
                                 gradient += `, ${exposureMap[index - 1][1]} ${percentage}%`;
                                 gradient += `, ${color} ${percentage}%`;
