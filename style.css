@@ -313,7 +313,7 @@ ul#stops-list > li > span.stop-dot {
 
 .stops-connecting-line {
     height: 0; /* To be set by javascript */
-    background-color: red;
+    background-color: #1976d2;
     width: 6px;
     position: absolute;
     margin-top: 12px;

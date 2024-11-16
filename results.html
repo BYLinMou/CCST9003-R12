@@ -47,9 +47,33 @@
             <div class="stops-container" id="stops-container">
                 <span class="stops-connecting-line"></span>
                 <script>
-                    // set the height of the connecting line
                     document.addEventListener('DOMContentLoaded', function() {
+                        // add hardcoded stops
+                        const stops = [
+                                'Kwun Tong Government Primary School, Ngau Tau Kok Road',
+                                'Lower Ngau Tau Kok Estate, Ngau Tau Kok Road', 
+                                'Amoy Gardens, Ngau Tau Kok Road', 
+                                'HK Auxillary Police Force Headquarters, Kai Cheung Road',
+                                'Wang Chin Street, Kai Cheung Road',
+                                'Elizabeth House, Gloucester Road',
+                                'Statue Square, Connought Road Central',
+                                'Connaught Gardern, Connaught Road West',
+                                'Chiu Kwong Street, Queen\'s Road West',
+                                'Shek Tong Tsui Complex, Queen\'s Road West'
+                        ];
                         const stopsContainer = document.getElementById('stops-container');
+                        const stopsList = document.getElementById('stops-list');
+                        stopsList.innerHTML = '';
+                        stops.forEach(stop => {
+                            const li = document.createElement('li');
+                            li.innerHTML = `
+                                <span class="stop-dot"></span>
+                                <span class="stop-name">${stop}</span>
+                            `;
+                            stopsList.appendChild(li);
+                        });
+
+                        // set connecting line height
                         const parentHeight = stopsContainer.offsetHeight;
                         const connectingLine = stopsContainer.querySelector('.stops-connecting-line');
                         connectingLine.style.height = `${parentHeight - 24}px`;
