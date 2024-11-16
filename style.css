@@ -31,12 +31,39 @@ body {
     padding: 16px;
 }
 
+.results-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 .header {
     background: #1976d2;
     color: white;
     padding: 16px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.results-header {
+    background: #1976d2;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-left: 16px;
+    display: flex;
+}
+
+.back-button .icon{
+    margin-right: -4px;
+    font-size: 20px;
+}
+
+.results-header .back-button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .search-form {
@@ -65,6 +92,30 @@ body {
     border-radius: 4px;
     font-size: 16px;
     padding-left: 16px;
+}
+
+/* Bus route autocomplete */
+ul#suggestions {
+    list-style: none;
+    padding-left: 16px;
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+ul#suggestions li {
+    background: #e0e0e0;
+    padding: 8px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+
+    transition: background 0.3s, color 0.3s;
+    }
+
+    ul#suggestions li:hover {
+        background: #1976d2;
+        color: white;
 }
 
 .horizontal-input-group {
@@ -103,6 +154,49 @@ body {
     border-radius: 8px;
     margin-top: 16px;
     display: none;
+}
+
+/* Searching Popup Animation */
+#searching-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5000;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px) saturate(70%);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#searching-popup .popup-content {
+    background: white;
+    border-radius: 12px;
+    height: 150px;
+    width: 150px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#searching-popup .spinner {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #1976d2; /* Blue */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+    margin-top: 16px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* Bottom Navigation Styles */
@@ -144,4 +238,108 @@ body {
     .bottom-nav {
         padding-bottom: max(8px, env(safe-area-inset-bottom));
     }
+}
+
+/* Results page */
+
+/* suggestion card */
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.seat-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+h2 {
+    font-size: 16px;
+    color: #1976d2;
+}
+
+#colour-legends {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.legend {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.colour-circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.seat-indicators > .seat-indicator {
+    font-size: 40px;
+}
+
+.seat-indicator {
+    color: #666;
+}
+
+.seat-indicator.active {
+    color: #1976d2;
+}
+
+ul#stops-list {
+    list-style: none;
+    margin-top: 8px;
+    padding-left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    z-index: 3;
+}
+
+ul#stops-list > li {
+    display: flex;
+    gap: 8px;
+}
+
+ul#stops-list > li > span.stop-dot {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    border-color: #1976d2;
+    background: white;;
+    border-width:3px;
+    border-style: solid;
+    box-sizing: border-box;
+    margin-top: 4px;
+    z-index: 3;
+}
+
+.stops-connecting-line {
+    height: 0; /* To be set by javascript */
+    background-color: #1976d2;
+    width: 6px;
+    position: absolute;
+    margin-top: 12px;
+    margin-left: 21px;
+    margin-bottom: 12px;
+    z-index: 0;
 }

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CCST9003-R12</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+    <script>
+        // check if parameter "valid_access=true" is in the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const validAccess = urlParams.get('valid_access');
+        if (validAccess !== 'true') {
+            window.location.href = 'search.html';
+        }
+    </script>
+    <header class="results-header">
+        <div class="back-button">
+            <span class="material-symbols-outlined icon">arrow_back_ios</span>
+            <p>Search</p>
+        </div>
+        <script>
+            document.querySelector('.back-button').addEventListener('click', function() {
+                window.location.href = 'search.html';
+            });
+        </script>
+    </header>
+
+    <main class="container results-container">
+        <div class="seat-recommendations card card-center">
+            <p>Sit on the <strong style="color: #1976d2;">Left</strong> side for maximized sunlight exposure ☀️.</p>
+            <div class="seat-indicators">
+                <span class="material-symbols-outlined seat-indicator active" style="transform: rotateY(180deg);">
+                    airline_seat_recline_extra
+                </span>
+                <span class="material-symbols-outlined seat-indicator">
+                    airline_seat_recline_extra
+                </span>
+            </div>
+            <p>Overall sun exposure rate: <strong style="color: #1976d2;">73%</strong></p>
+        </div>
+
+        <div class="exposure-visualiser card">
+            <h2>Exposure Overview</h2>
+            <div id="colour-legends">
+                <div class="legend">
+                    <span class="colour-circle" style="background-color: #1976d2;"></span>
+                    <span class="legend-name">Sun on Left Side</span>
+                </div>
+                <div class="legend">
+                    <span class="colour-circle" style="background-color: #f57c00;"></span>
+                    <span class="legend-name">Sun on Right Side</span>
+                </div>
+                <div class="legend">
+                    <span class="colour-circle" style="background-color: #666;"></span>
+                    <span class="legend-name">In Shadow</span>
+                </div>
+            </div>
+            <div class="stops-container" id="stops-container">
+                <span class="stops-connecting-line"></span>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // add hardcoded stops
+                        const stops = [
+                                'Kwun Tong Government Primary School, Ngau Tau Kok Road',
+                                'Lower Ngau Tau Kok Estate, Ngau Tau Kok Road', 
+                                'Amoy Gardens, Ngau Tau Kok Road', 
+                                'HK Auxillary Police Force Headquarters, Kai Cheung Road',
+                                'Wang Chin Street, Kai Cheung Road',
+                                'Elizabeth House, Gloucester Road',
+                                'Statue Square, Connought Road Central',
+                                'Connaught Gardern, Connaught Road West',
+                                'Chiu Kwong Street, Queen\'s Road West',
+                                'Shek Tong Tsui Complex, Queen\'s Road West'
+                        ];
+                        const stopsContainer = document.getElementById('stops-container');
+                        const stopsList = document.getElementById('stops-list');
+                        stopsList.innerHTML = '';
+                        stops.forEach(stop => {
+                            const li = document.createElement('li');
+                            li.innerHTML = `
+                                <span class="stop-dot"></span>
+                                <span class="stop-name">${stop}</span>
+                            `;
+                            stopsList.appendChild(li);
+                        });
+
+                        // set connecting line height
+                        const parentHeight = stopsContainer.offsetHeight;
+                        const connectingLine = stopsContainer.querySelector('.stops-connecting-line');
+                        connectingLine.style.height = `${parentHeight - 24}px`;
+
+                        // set colours
+                        const SUN_ON_LEFT = '#1976d2';
+                        const SUN_ON_RIGHT = '#f57c00';
+                        const IN_SHADES = "#666";
+                        const exposureMap = [
+                            // [accumulated_percentage, colour]
+                            [0, SUN_ON_LEFT],
+                            [30, IN_SHADES],
+                            [35, SUN_ON_RIGHT],
+                            [40, SUN_ON_LEFT],
+                            [73, IN_SHADES],
+                            [87, SUN_ON_LEFT],
+                            [100, SUN_ON_LEFT]
+                        ];
+                        // set the colour of connecting line accorging to exposure map
+                        let gradient = 'linear-gradient(to bottom';
+                        exposureMap.forEach(([percentage, color], index) => {
+                            if (index === 0) {
+                                gradient += `, ${color}`;
+                            } else if (index === exposureMap.length - 1) {
+                                gradient += `, ${exposureMap[index - 1][1]} ${percentage}%, ${color}`;
+                            } else {
+                                gradient += `, ${exposureMap[index - 1][1]} ${percentage}%`;
+                                gradient += `, ${color} ${percentage}%`;
+                            }
+                        });
+                        gradient += ')';
+                        connectingLine.style.background = gradient;
+                    });
+                </script>
+                <ul id="stops-list">
+                    <li>
+                        <span class="stop-dot"></span>
+                        <span class="stop-name">Placeholder 1</span>
+                    </li>
+                    <li>
+                        <span class="stop-dot"></span>
+                        <span class="stop-name">Placeholder 2</span>
+                    </li>
+                    <li>
+                        <span class="stop-dot"></span>
+                        <span class="stop-name">Placeholder 3</span>
+                    </li>
+                    <li>
+                        <span class="stop-dot"></span>
+                        <span class="stop-name">Placeholder 4</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

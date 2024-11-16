@@ -5,7 +5,6 @@
     <title>CCST9003-R12</title> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="main.js"></script>
 </head>
 <body>
     <header class="header">
@@ -18,18 +17,83 @@
             <div class="input-group">
                 <label for="busRoute">Bus Route</label>
                 <input type="text" id="busRoute" placeholder="e.g., 26A" required>
+                <ul id="suggestions" class="suggestions-list"></ul>
+
+                <script>
+                    document.getElementById('busRoute').addEventListener('input', function() {
+                        const input = this.value;
+                        const suggestions = document.getElementById('suggestions');
+                        suggestions.innerHTML = '';
+
+                        if (input.length > 0) {
+                            const routes = ['101', '101X', '14', '14X']; // Example routes
+                            const filteredRoutes = routes.filter(route => route.toLowerCase().includes(input.toLowerCase()));
+
+                            // only adds stations if the route chosen is 101X
+                            const route101XStops = [
+                                'Kwun Tong (Yue Man Square)', 'Ngau Tau Kok Station, Ngau Tau Kok Road',
+                                'Kwun Tong Government Primary School, Ngau Tau Kok Road',
+                                'Lower Ngau Tau Kok Estate, Ngau Tau Kok Road', 
+                                'Amoy Gardens, Ngau Tau Kok Road', 
+                                'HK Auxillary Police Force Headquarters, Kai Cheung Road',
+                                'Wang Chin Street, Kai Cheung Road',
+                                'Elizabeth House, Gloucester Road',
+                                'Statue Square, Connought Road Central',
+                                'Connaught Gardern, Connaught Road West',
+                                'Chiu Kwong Street, Queen\'s Road West',
+                                'Shek Tong Tsui Complex, Queen\'s Road West',
+                                'Yat Fu Lane, Queen\'s Road West',
+                                'Sands Street, Belcher\'s Street',
+                                'Luen Bong Apartment, Belcher\'s Street',
+                                'Ka Wai Man Road, Victoria Road',
+                                'Kennedy Town'
+                            ]
+
+                            filteredRoutes.forEach(route => {
+                                const li = document.createElement('li');
+                                li.textContent = route;
+                                li.addEventListener('click', function() {
+                                    document.getElementById('busRoute').value = route;
+                                    suggestions.innerHTML = '';
+
+                                    // only adds stations if the route chosen is 101X
+                                    if (route !== '101X'){
+                                        return;
+                                    }
+
+                                    const startStop = document.getElementById('startStop');
+                                    const endStop = document.getElementById('endStop');
+                                    startStop.disabled = false;
+                                    endStop.disabled = false;
+                                    route101XStops.forEach(stop => {
+                                        const optionStart = document.createElement('option');
+                                        optionStart.value = stop;
+                                        optionStart.textContent = stop;
+                                        startStop.appendChild(optionStart);
+
+                                        const optionEnd = document.createElement('option');
+                                        optionEnd.value = stop;
+                                        optionEnd.textContent = stop;
+                                        endStop.appendChild(optionEnd);
+                                    });
+                                });
+                                suggestions.appendChild(li);
+                            });
+                        }
+                    });
+                </script>
             </div>
 
             <div class="input-group">
                 <label for="startStop">Starting Stop</label>
-                <select id="startStop" required>
+                <select id="startStop" required disabled>
                     <option value="">Select starting stop</option>
                 </select>
             </div>
 
             <div class="input-group">
                 <label for="endStop">Destination Stop</label>
-                <select id="endStop" required>
+                <select id="endStop" required disabled>
                     <option value="">Select destination stop</option>
                 </select>
             </div>
@@ -37,8 +101,8 @@
             <div class="input-group">
                 <label for="preference">Sunlight Preference</label>
                 <select id="preference" required>
-                    <option value="min">Minimize sunlight</option>
-                    <option value="max">Maximize sunlight</option>
+                    <option value="min">Minimized sunlight 🌥️</option>
+                    <option value="max">Maximized sunlight ☀️</option>
                 </select>
             </div>
 
@@ -57,12 +121,12 @@
                 <input type="datetime-local" id="departureTime" name="departureTime">
 
                 <script>
-                    function toggleDepartureTime(useNow) {
+                    function toggleDepartureTime(useNow){
                         // const customTimeContainer = document.getElementById('departureTimeContainer');
                         // customTimeContainer.style.display = useNow ? 'none' : 'block';
                         const dateTimeControl = document.getElementById('departureTime');
                         dateTimeControl.disabled = useNow;
-                        if (useNow) {
+                        if (useNow){
                             const now = new Date();
                             const nowString = now.toISOString().slice(0, 16);
                             dateTimeControl.value = nowString;
@@ -72,7 +136,31 @@
             </div>
 
             <button type="submit" class="submit-btn">Get Recommendation</button>
+            <script>
+                document.getElementById('routeForm').addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent form from submitting
+
+                    // Show loading popup
+                    const popup = document.getElementById('searching-popup');
+                    popup.style.display = 'flex';
+                    
+                    setTimeout(() => {
+                        // Hide loading popup
+                        popup.style.display = 'none';
+
+                        // redirect to result page
+                        window.location.href = 'results.html?valid_access=true';
+                    }, 3000);
+                });
+            </script>
         </form>
+
+        <div id="searching-popup">
+            <div class="popup-content">
+                <div class="spinner"></div>
+                <p>Fetching data...</p>
+            </div>
+        </div>
 
         <div class="result" id="result"></div>
     </main>
