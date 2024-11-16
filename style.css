@@ -67,6 +67,30 @@ body {
     padding-left: 16px;
 }
 
+/* Bus route autocomplete */
+ul#suggestions {
+    list-style: none;
+    padding-left: 16px;
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+ul#suggestions li {
+    background: #e0e0e0;
+    padding: 8px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+
+    transition: background 0.3s, color 0.3s;
+    }
+
+    ul#suggestions li:hover {
+        background: #1976d2;
+        color: white;
+}
+
 .horizontal-input-group {
     display: flex;
     gap: 8px;
