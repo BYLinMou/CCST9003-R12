@@ -39,6 +39,27 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+.results-header {
+    background: #1976d2;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-left: 16px;
+    display: flex;
+}
+
+.back-button .icon{
+    margin-right: -4px;
+    font-size: 20px;
+}
+
+.results-header .back-button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
 .search-form {
     background: white;
     padding: 16px;
