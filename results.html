@@ -77,6 +77,33 @@
                         const parentHeight = stopsContainer.offsetHeight;
                         const connectingLine = stopsContainer.querySelector('.stops-connecting-line');
                         connectingLine.style.height = `${parentHeight - 24}px`;
+
+                        // set colours
+                        const SUN_ON_LEFT = '#1976d2';
+                        const SUN_ON_RIGHT = '#f57c00';
+                        const IN_SHADES = "#666";
+                        const exposureMap = [
+                            // [accumulated_percentage, colour]
+                            [0, SUN_ON_LEFT],
+                            [30, IN_SHADES],
+                            [35, SUN_ON_RIGHT],
+                            [40, SUN_ON_LEFT],
+                            [73, SUN_ON_RIGHT],
+                            [87, IN_SHADES],
+                            [100, SUN_ON_LEFT]
+                        ];
+                        // set the colour of connecting line accorging to exposure map
+                        let gradient = 'linear-gradient(to bottom';
+                        exposureMap.forEach(([percentage, color], index) => {
+                            if (index === 0) {
+                                gradient += `, ${color}`;
+                            } else {
+                                gradient += `, ${exposureMap[index - 1][1]} ${percentage}%`;
+                                gradient += `, ${color} ${percentage}%`;
+                            }
+                        });
+                        gradient += ')';
+                        connectingLine.style.background = gradient;
                     });
                 </script>
                 <ul id="stops-list">
