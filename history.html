@@ -5,15 +5,148 @@
     <title>CCST9003-R12</title> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="main.js"></script>
+    <script src="login.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 <body>
-    <header class="header">
+    <header class="header" style="position: sticky; top: 0;">
         <h1>Sun Bus</h1>
         <p>Smart Seat Recommendation System</p>
     </header>
 
-    <main></main>
+    <main class="container flex-container" style="margin-bottom: 16px;">
+        <div id="login-required" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+            <span class="material-symbols-outlined"
+            style="color: #666; font-size: 30vw; margin-top: 64px;">delete_history</span>
+            <p style="margin-top: 16px; font-size: 20px;">
+                <strong>History Unavailable</strong>
+            </p>
+            <p>
+                You need to <a href="profile.html">login</a> to view your history.
+            </p>
+        </div>
+
+        <div id="history" style="display: none; flex-direction: column; gap: 8px;">
+            <h2 style="font-size: 24px;">History</h2>
+            <p>Tap on any history query entry to get seat recommendation for departure of the same time today.</p>
+            <div class="card history-card">
+                <p>
+                    <span class="history-card-normal-text">Route </span>
+                    <span class="history-card-highlight-text">970</span>
+                </p>
+                <p>
+                    <span class="history-card-normal-text">From </span>
+                    <span class="history-card-highlight-text">HKU Centennial Campus</span>
+                    <span class="history-card-normal-text"> to </span>
+                    <span class="history-card-highlight-text">Shanghai Street, Temple Street</span>
+                </p>
+                <p>
+                    <span class="history-card-normal-text">Departing at </span>
+                    <span class="history-card-highlight-text">16:30</span>
+                </p>
+                <p>
+                    <span class="history-card-normal-text">Prefers </span>
+                    <span class="history-card-highlight-text">Maximal Sunlight</span>
+                </p>
+            </div>
+            <div class="card history-card">
+                <p>
+                    <span class="history-card-normal-text">Route </span>
+                    <span class="history-card-highlight-text">101</span>
+                </p>
+                <p>
+                    <span class="history-card-normal-text">From </span>
+                    <span class="history-card-highlight-text">Hill Road</span>
+                    <span class="history-card-normal-text"> to </span>
+                    <span class="history-card-highlight-text">Kwun Tong Road Sitting Out Area</span>
+                </p>
+                <p>
+                    <span class="history-card-normal-text">Departing at </span>
+                    <span class="history-card-highlight-text">13:38</span>
+                </p>
+                <p>
+                    <span class="history-card-normal-text">Prefers </span>
+                    <span class="history-card-highlight-text">Maximal Sunlight</span>
+                </p>
+            </div>
+            <div class="card history-card">
+                <p>
+                    <span class="history-card-normal-text">Route </span>
+                    <span class="history-card-highlight-text">101X</span>
+                </p>
+                <p>
+                    <span class="history-card-normal-text">From </span>
+                    <span class="history-card-highlight-text">Kwun Tong Government Primary School</span>
+                    <span class="history-card-normal-text"> to </span>
+                    <span class="history-card-highlight-text">Shek Tong Tsui Market Complex</span>
+                </p>
+                <p>
+                    <span class="history-card-normal-text">Departing at </span>
+                    <span class="history-card-highlight-text">08:50</span>
+                </p>
+                <p>
+                    <span class="history-card-normal-text">Prefers </span>
+                    <span class="history-card-highlight-text">Maximal Sunlight</span>
+                </p>
+            </div>
+            <div class="card history-card">
+                <p>
+                    <span class="history-card-normal-text">Route </span>
+                    <span class="history-card-highlight-text">93K</span>
+                </p>
+                <p>
+                    <span class="history-card-normal-text">From </span>
+                    <span class="history-card-highlight-text">Po Lam Bus Terminus</span>
+                    <span class="history-card-normal-text"> to </span>
+                    <span class="history-card-highlight-text">Mong Kok East Railway Station</span>
+                </p>
+                <p>
+                    <span class="history-card-normal-text">Departing at </span>
+                    <span class="history-card-highlight-text">14:26</span>
+                </p>
+                <p>
+                    <span class="history-card-normal-text">Prefers </span>
+                    <span class="history-card-highlight-text">Maximal Sunlight</span>
+                </p>
+            </div>
+            <div class="card history-card">
+                <p>
+                    <span class="history-card-normal-text">Route </span>
+                    <span class="history-card-highlight-text">16</span>
+                </p>
+                <p>
+                    <span class="history-card-normal-text">From </span>
+                    <span class="history-card-highlight-text">Ting Fu Street, Kwun Tong Road</span>
+                    <span class="history-card-normal-text"> to </span>
+                    <span class="history-card-highlight-text">Ming Kei Colledge</span>
+                </p>
+                <p>
+                    <span class="history-card-normal-text">Departing at </span>
+                    <span class="history-card-highlight-text">13:17</span>
+                </p>
+                <p>
+                    <span class="history-card-normal-text">Prefers </span>
+                    <span class="history-card-highlight-text">Maximal Sunlight</span>
+                </p>
+            </div>
+            <script>
+                // add click event listener to each history card
+                document.querySelectorAll('.history-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        window.location.href = 'results.html?valid_access=true&sun=max';
+                    });
+                });
+            </script>
+        </div>
+
+        <script>
+            // check if user is logged in
+            if (Auth.isLoggedIn()) {
+                document.getElementById('login-required').style.display = 'none';
+                document.getElementById('history').style.display = 'flex';
+            }
+        </script>
+    </main>
 
     <nav class="bottom-nav">
         <a href="index.html" class="nav-item">
