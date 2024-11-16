@@ -64,6 +64,18 @@
             <div class="stops-container" id="stops-container">
                 <span class="stops-connecting-line"></span>
                 <script>
+                    const setHeight = function() {
+                        const stopsContainer = document.getElementById('stops-container');
+                        const parentHeight = stopsContainer.offsetHeight;
+                        const lastStopHeight = stopsContainer.querySelector('li:last-child').offsetHeight;
+                        const connectingLine = stopsContainer.querySelector('.stops-connecting-line');
+                        connectingLine.style.height = `${parentHeight - lastStopHeight}px`;
+                    }
+                    document.addEventListener('resize', function() {
+                        // set connecting line height on resize
+                        setHeight();
+                    });
+                    new ResizeObserver(setHeight).observe(document.getElementById('stops-container'));
                     document.addEventListener('DOMContentLoaded', function() {
                         // add hardcoded stops
                         const stops = [
@@ -78,7 +90,6 @@
                                 'Chiu Kwong Street, Queen\'s Road West',
                                 'Shek Tong Tsui Complex, Queen\'s Road West'
                         ];
-                        const stopsContainer = document.getElementById('stops-container');
                         const stopsList = document.getElementById('stops-list');
                         stopsList.innerHTML = '';
                         stops.forEach(stop => {
@@ -89,6 +100,8 @@
                             `;
                             stopsList.appendChild(li);
                         });
+
+                        setHeight();
 
                         // get sun preference from url param "sun"
                         const urlParams = new URLSearchParams(window.location.search);
@@ -105,12 +118,9 @@
                             document.getElementById('sun-percentage').textContent = '27%';
                         }
 
-                        // set connecting line height
-                        const parentHeight = stopsContainer.offsetHeight;
-                        const connectingLine = stopsContainer.querySelector('.stops-connecting-line');
-                        connectingLine.style.height = `${parentHeight - 24}px`;
-
                         // set colours
+                        const stopsContainer = document.getElementById('stops-container');
+                        const connectingLine = stopsContainer.querySelector('.stops-connecting-line');
                         const SUN_ON_LEFT = '#1cc834';
                         const SUN_ON_RIGHT = '#f57c00';
                         const IN_SHADES = "#999";

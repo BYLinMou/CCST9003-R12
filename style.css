@@ -272,7 +272,7 @@ h2 {
 
 #colour-legends {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     margin-left: 16px;
     margin-right: 16px;
@@ -311,7 +311,6 @@ ul#stops-list {
     display: flex;
     flex-direction: column;
     gap: 32px;
-    z-index: 3;
 }
 
 ul#stops-list > li {
