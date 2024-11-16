@@ -149,7 +149,8 @@
                         popup.style.display = 'none';
 
                         // redirect to result page
-                        window.location.href = 'results.html?valid_access=true';
+                        const sun_preference = document.getElementById('preference').value;
+                        window.location.href = `results.html?valid_access=true&sun=${sun_preference}`;
                     }, 3000);
                 });
             </script>

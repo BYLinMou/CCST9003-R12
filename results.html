@@ -30,23 +30,26 @@
 
     <main class="container results-container">
         <div class="seat-recommendations card card-center">
-            <p>Sit on the <strong style="color: #1976d2;">Left</strong> side for maximized sunlight exposure ☀️.</p>
+            <p>Sit on the <strong style="color: #1976d2;" id="seat-suggestion">{suggestion}</strong> side for 
+                <span id="max-sun">maximized sunlight exposure ☀️</span>
+                <span id="min-sun">minimized sunlight exposure 🌥️</span>.</p>
             <div class="seat-indicators">
-                <span class="material-symbols-outlined seat-indicator active" style="transform: rotateY(180deg);">
+                <span class="material-symbols-outlined seat-indicator" style="transform: rotateY(180deg);"
+                    id="left-seat">
                     airline_seat_recline_extra
                 </span>
-                <span class="material-symbols-outlined seat-indicator">
+                <span class="material-symbols-outlined seat-indicator" id="right-seat">
                     airline_seat_recline_extra
                 </span>
             </div>
-            <p>Overall sun exposure rate: <strong style="color: #1976d2;">73%</strong></p>
+            <p>Overall sun exposure rate: <strong style="color: #1976d2;" id="sun-percentage">{percentage}%</strong></p>
         </div>
 
         <div class="exposure-visualiser card">
             <h2>Exposure Overview</h2>
             <div id="colour-legends">
                 <div class="legend">
-                    <span class="colour-circle" style="background-color: #1976d2;"></span>
+                    <span class="colour-circle" style="background-color: #1cc834;"></span>
                     <span class="legend-name">Sun on Left Side</span>
                 </div>
                 <div class="legend">
@@ -54,7 +57,7 @@
                     <span class="legend-name">Sun on Right Side</span>
                 </div>
                 <div class="legend">
-                    <span class="colour-circle" style="background-color: #666;"></span>
+                    <span class="colour-circle" style="background-color: #999;"></span>
                     <span class="legend-name">In Shadow</span>
                 </div>
             </div>
@@ -87,15 +90,30 @@
                             stopsList.appendChild(li);
                         });
 
+                        // get sun preference from url param "sun"
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const sunPreference = urlParams.get('sun');
+                        if (sunPreference === 'max') {
+                            document.getElementById('seat-suggestion').textContent = 'Left';
+                            document.getElementById('left-seat').classList.add('active');
+                            document.getElementById('min-sun').style.display = 'none';
+                            document.getElementById('sun-percentage').textContent = '73%';
+                        } else {
+                            document.getElementById('seat-suggestion').textContent = 'Right';
+                            document.getElementById('right-seat').classList.add('active');
+                            document.getElementById('max-sun').style.display = 'none';
+                            document.getElementById('sun-percentage').textContent = '27%';
+                        }
+
                         // set connecting line height
                         const parentHeight = stopsContainer.offsetHeight;
                         const connectingLine = stopsContainer.querySelector('.stops-connecting-line');
                         connectingLine.style.height = `${parentHeight - 24}px`;
 
                         // set colours
-                        const SUN_ON_LEFT = '#1976d2';
+                        const SUN_ON_LEFT = '#1cc834';
                         const SUN_ON_RIGHT = '#f57c00';
-                        const IN_SHADES = "#666";
+                        const IN_SHADES = "#999";
                         const exposureMap = [
                             // [accumulated_percentage, colour]
                             [0, SUN_ON_LEFT],
