@@ -233,3 +233,34 @@ ul#suggestions li {
         padding-bottom: max(8px, env(safe-area-inset-bottom));
     }
 }
+
+/* Results page */
+
+/* suggestion card */
+.seat-recommendation-card {
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.seat-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.seat-indicators > .seat-indicator {
+    font-size: 40px;
+}
+
+.seat-indicator {
+    color: #666;
+}
+
+.seat-indicator.active {
+    color: #1976d2;
+}
