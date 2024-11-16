@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CCST9003-R12</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="./login.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+    <header class="results-header">
+        <div class="back-button">
+            <span class="material-symbols-outlined icon">arrow_back_ios</span>
+            <p>Results</p>
+        </div>
+        <script>
+            document.querySelector('.back-button').addEventListener('click', function() {
+                // get parameter from URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const returnToUrl = urlParams.get('return_to');
+                window.location.href = returnToUrl;
+            });
+        </script>
+    </header>
+
+    <main class="flex-container container">
+        <div class="card" id="reserve-info-card">
+            <h2>Reserve a Seat</h2>
+            <p>
+                Reserve yourself a seat on the next arriving bus. Availability may vary depending on the
+                actual situation. You will not be charged until a successful reservation. Subject to the
+                Terms and Conditions.
+            </p>
+            <p><strong>
+                Once reserved, no refund will be provided. If you miss the bus, the reservation cannot be
+                transferred to another bus.
+            </strong></p>
+        </div>
+
+        <div class="card card-center" id="login-required-card">
+            <span class="material-symbols-outlined" style="font-size: 20vw; color: #888;">dangerous</span>
+            <h2 style="color: black;">Login Required</h2>
+            <p>
+                Only logged-in users can reserve a seat.
+            </p>
+        </div>
+
+        <div class="card" id="payment-info-card" style="display: none;">
+            <h2>Payment Summary</h2>
+            <style>
+                .payment-table {
+                    width: calc(100% - 16px);
+                    border-collapse: collapse;
+                    margin-left: 16px;
+                }
+                .payment-table td, .payment-table th {
+                    padding: 8px;
+                    text-align: left;
+                }
+                .payment-table td.price {
+                    text-align: right;
+                }
+                .payment-table .total-row {
+                    border-top: 2px solid black;
+                }
+            </style>
+            <table class="payment-table">
+                <tr>
+                    <td>Reservation fee</td>
+                    <td class="price">HK$10.00</td>
+                </tr>
+                <tr id="medical-need-waive">
+                    <td>Medical permit - fee waived</td>
+                    <td class="price">-HK$10.00</td>
+                </tr>
+                <tr class="total-row" id="medical-need-waive-total">
+                    <td>Total</td>
+                    <td class="price" id="total-price">HK$0.00</td>
+                </tr>
+                <tr class="total-row" id="normal-total">
+                    <td>Total</td>
+                    <td class="price" id="total-price">HK$10.00</td>
+                </tr>
+            </table>
+
+            <p>
+                Fee will be charged to your linked credit card.
+            </p>
+
+            <form id="payment-form" style="margin-top: 16px;">
+                <button class="submit-btn">Proceed to Payment</button>
+            </form>
+
+            <div id="searching-popup">
+                <div class="popup-content">
+                    <div class="spinner"></div>
+                    <p>Reserving...</p>
+                </div>
+            </div>
+
+            <script>
+                // on load:
+                document.addEventListener("DOMContentLoaded", function() {
+                    // check if user signed in
+                    if (!Auth.isLoggedIn()) {
+                        return;
+                    }
+
+                    // show payment info
+                    document.getElementById('payment-info-card').style.display = 'block';
+                    document.getElementById('login-required-card').style.display = 'none';
+
+                    // check for medical need
+                    if (Auth.isQualified()) {
+                        document.getElementById('normal-total').style.display = 'none';
+                    } else {
+                        document.getElementById('medical-need-waive').style.display = 'none';
+                        document.getElementById('medical-need-waive-total').style.display = 'none';
+                    }
+                });
+
+                // on submit:
+                document.getElementById('payment-form').addEventListener('submit', function(event) {
+                    event.preventDefault(); 
+
+                    // Show loading popup
+                    const popup = document.getElementById('searching-popup');
+                    popup.style.display = 'flex';
+
+                    setTimeout(() => {
+                        // Hide loading popup
+                        popup.style.display = 'none';
+
+                        // redirect to success page
+                        window.location.href = 'reserve_success.html';
+                    }, 3000);
+                });
+            </script>
+        </div>
+    </main>
+</body>
+</html>

@@ -52,4 +52,13 @@ class Auth {
         // 從localStorage獲取並解析用戶數據
         return JSON.parse(localStorage.getItem('userData'));
     }
+
+    static isQualified() {
+        // check if the user is qualified for medical need waiver
+        if (!this.isLoggedIn()) {
+            return false;
+        }
+        const userData = this.getUserData();
+        return userData.qualification;
+    }
 }

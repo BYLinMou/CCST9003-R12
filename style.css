@@ -357,16 +357,16 @@ ul#stops-list > li > span.stop-dot {
 }
 
 .history-card-highlight-text {
-    font-size: 24px;
+    font-size: 16px;
     color: #1976d2;
     font-weight: bold;
 }
 
 .history-card {
     cursor: pointer;
-    transition: color 0.3s ease;
+    transition: background 0.3s ease;
 }
 
 .history-card:hover {
-    background: #AAA;
+    background: #CCC;
 }

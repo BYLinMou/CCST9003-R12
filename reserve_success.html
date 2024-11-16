@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    <title>CCST9003-R12</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+    <header class="results-header">
+        <div class="back-button">
+            <span class="material-symbols-outlined icon">arrow_back_ios</span>
+            <p>Home</p>
+        </div>
+        <script>
+            document.querySelector('.back-button').addEventListener('click', function() {
+                window.location.href = 'index.html';
+            });
+        </script>
+    </header>
+
+    <main class="container flex-container">
+        <div class="card card-center" id="success-card">
+            <span class="material-symbols-outlined" style="font-size: 20vw; color: #009f15;">done</span>
+            <p style="font-size: 20px;"><strong>Seat Reserved</strong></p>
+        </div>
+        <div class="card" id="reservation-info-card">
+            <h2>Reservation Details</h2>
+            <p>
+                <span class="history-card-normal-text">Bus registration plate: </span>
+                <span class="history-card-highlight-text">KJ 1234</span>
+            </p>
+            <p>
+                <span class="history-card-normal-text">Bus route: </span>
+                <span class="history-card-highlight-text">101X</span>
+            </p>
+            <p>
+                <span class="history-card-normal-text">Arrival stop: </span>
+                <span class="history-card-highlight-text">Kwun Tong Government Primary School</span>
+            <p>
+                <span class="history-card-normal-text">Expected arrival time: </span>
+                <span class="history-card-highlight-text">08:50</span>
+            </p>
+            <p>
+                <span class="history-card-normal-text">Reserved seat: </span>
+                <span class="history-card-highlight-text">Upper-level Row 4 Seat B</span>
+            </p>
+        </div>
+
+        <div class="card" id="important-info-card">
+            <h2>Important Information</h2>
+            <p>
+                Please arrive the bus stop at least 5 minutes before the expected arrival time.
+                No refund shall be provided should the user miss the reserved bus.
+                Reservation is not transferrable to another bus.
+            </p>
+        </div>
+    </main>
+</body>
+</html>

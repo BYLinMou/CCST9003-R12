@@ -107,12 +107,14 @@
                         const urlParams = new URLSearchParams(window.location.search);
                         const sunPreference = urlParams.get('sun');
                         if (sunPreference === 'max') {
-                            document.getElementById('seat-suggestion').textContent = 'Left';
+                            document.getElementById('seat-suggestion').textContent = 'left';
+                            document.getElementById('seat-suggestion-2').textContent = 'left';
                             document.getElementById('left-seat').classList.add('active');
                             document.getElementById('min-sun').style.display = 'none';
                             document.getElementById('sun-percentage').textContent = '73%';
                         } else {
-                            document.getElementById('seat-suggestion').textContent = 'Right';
+                            document.getElementById('seat-suggestion').textContent = 'right';
+                            document.getElementById('seat-suggestion-2').textContent = 'right';
                             document.getElementById('right-seat').classList.add('active');
                             document.getElementById('max-sun').style.display = 'none';
                             document.getElementById('sun-percentage').textContent = '27%';
@@ -169,6 +171,25 @@
                     </li>
                 </ul>
             </div>
+        </div>
+
+        <div class="card seat-booking">
+            <h2>Reserve a Seat</h2>
+            <p>
+                Reserve a seat on the <span id="seat-suggestion-2">{side}</span> side on coming bus.
+            </p>
+            <form id="reserve-form" style="margin-top: 8px;">
+                <button class="submit-btn">Reserve Now</button>
+            </form>
+            <script>
+                document.getElementById('reserve-form').addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent form from submitting
+
+                    // get current page URL with params for redirecting
+                    const currentUrl = window.location.href;
+                    window.location.href = `reserve.html?return_to=${encodeURIComponent(currentUrl)}`;
+                });
+            </script>
         </div>
     </main>
 </body>
