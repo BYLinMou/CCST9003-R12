@@ -136,7 +136,28 @@
             </div>
 
             <button type="submit" class="submit-btn">Get Recommendation</button>
+            <script>
+                document.getElementById('routeForm').addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent form from submitting
+
+                    // Show loading popup
+                    const popup = document.getElementById('searching-popup');
+                    popup.style.display = 'flex';
+                    
+                    setTimeout(() => {
+                        // Hide loading popup
+                        popup.style.display = 'none';
+                    }, 3000);
+                });
+            </script>
         </form>
+
+        <div id="searching-popup">
+            <div class="popup-content">
+                <div class="spinner"></div>
+                <p>Fetching data...</p>
+            </div>
+        </div>
 
         <div class="result" id="result"></div>
     </main>
