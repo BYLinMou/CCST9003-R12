@@ -19,11 +19,17 @@
     <header class="results-header">
         <div class="back-button">
             <span class="material-symbols-outlined icon">arrow_back_ios</span>
-            <p>Search</p>
+            <p>Back</p>
         </div>
         <script>
             document.querySelector('.back-button').addEventListener('click', function() {
-                window.location.href = 'search.html';
+                const urlParams = new URLSearchParams(window.location.search);
+                const backTo = urlParams.get('from');
+                if (backTo === 'search') {
+                    window.location.href = 'search.html';
+                } else if (backTo === 'history') {
+                    window.location.href = 'history.html';
+                }
             });
         </script>
     </header>
