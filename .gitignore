@@ -1,1 +1,4 @@
 __pycache__/
+media/
+.DS_Store
+.idea/
