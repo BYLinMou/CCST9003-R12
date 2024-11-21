@@ -21,9 +21,16 @@ class SolarAngleScene(ThreeDScene):
         )
         x_label = axes.get_x_axis_label(Text('East', color=WHITE).scale(0.6), buff=-0.75)
         y_label = axes.get_y_axis_label(Text('North', color=WHITE).scale(0.6), buff=-0.25)
+        x_y_plane = NumberPlane(
+            x_range=[-20, 20, 2],
+            y_range=[-20, 20, 2],
+            background_line_style={
+                "stroke_color": GREY,
+            }
+        )
         self.play(
             Create(axes, run_time=0.5),
-            # Create(x_y_plane, run_time=0.5),
+            Create(x_y_plane, run_time=0.5),
             Write(x_label, run_time=0.5),
             Write(y_label), run_time=0.5)
         self.wait(0.5)
@@ -135,9 +142,10 @@ class SolarAngleScene(ThreeDScene):
 
         elevation_angle.add_updater(lambda m: update_elevation_angle(m))
 
-        # rotation
+        # connect to sun
         line_o_s = Line(observer.get_center(), sun.get_center(), color=GREEN)
-        self.play(Transform(active_line, line_o_s, run_time=1))
+        line_p_s = DashedLine(sun_projection.get_center(), sun.get_center(), color=GREY)
+        self.play(Transform(active_line, line_o_s, run_time=1), Create(line_p_s, run_time=1))
         self.play(Write(elevation_label, run_time=0.5))
         self.wait(1)
 
@@ -159,7 +167,7 @@ class SolarAngleScene(ThreeDScene):
         azimuth_formula = MathTex(r'''\cos\left(\frac{1}{2}-\theta_{az}\right)
                                   =\sin(\phi)\cdot\sin(\theta_{dec})
                                   +\cos(\phi)\cdot\cos(\theta_{dec})\cdot\cos(\theta_{ha})''',
-                                  color=RED, font_size=26)
+                                  color=RED, font_size=22, background_stroke_color=RED_A, background_stroke_width=1.5)
         self.add_fixed_in_frame_mobjects(azimuth_formula)
         azimuth_formula.to_corner(UR)
         self.play(Unwrite(azimuth_label, run_time=0.5), Write(azimuth_formula, run_time=0.5))
@@ -167,7 +175,7 @@ class SolarAngleScene(ThreeDScene):
 
         elevation_formula = MathTex(r'\sin(', r'\theta_{az}',
                                     r')=\frac{-\cos\theta_{dec}\cdot\sin\theta_{ha}}{\cos{\theta_{el}}}',
-                                    color=GREEN, font_size=26)
+                                    color=GREEN, font_size=22, background_stroke_color=GREEN_A, background_stroke_width=1.5)
         self.add_fixed_in_frame_mobjects(elevation_formula)
         elevation_formula.to_corner(UR)
         elevation_formula.shift(DOWN)
