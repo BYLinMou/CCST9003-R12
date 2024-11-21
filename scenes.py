@@ -36,7 +36,11 @@ class SolarAngleScene(ThreeDScene):
         sun = Dot(radius=0.05, color=YELLOW, point=axes.coords_to_point([-3, -6, 10])[0])
         sun_projection = Dot(radius=0.05, color=YELLOW, point=axes.coords_to_point([-3, -6, 0])[0])
         sun_label = Text('Sun', color=YELLOW).scale(0.5).next_to(sun, np.array((-1, -1, 0)), buff=0.5)
-        self.camera.add_fixed_orientation_mobjects(sun, sun_label)
+        self.camera.add_fixed_orientation_mobjects(sun)
+        self.remove(sun)
+        self.camera.add_fixed_in_frame_mobjects(sun_label)
+        self.remove(sun_label)
+        sun_label.to_corner(UL).shift(0.5 * DOWN + 3 * RIGHT)
 
         # create observer at origin
         observer = Dot(radius=0.05, color=RED, point=axes.coords_to_point([0, 0, 0])[0])
@@ -55,10 +59,11 @@ class SolarAngleScene(ThreeDScene):
         # rotate 0.1 deg to avoid parallelism
         active_line.rotate(-np.deg2rad(0.1), about_point=observer.get_center())
         azimuth_angle = Angle(Line(ORIGIN, UP), active_line, radius=0.5, color=RED, other_angle=True)
-        azimuth_label = (MathTex(r'\text{Azimuth }', r'\theta_{\text{az}}', color=RED, stroke_width=1.5)
+        azimuth_label = (MathTex(r'\text{Azimuth }', r'\theta_{az}', color=RED, stroke_width=1.5)
                          .scale(0.5)
                          .next_to(azimuth_angle, DR))
-        self.camera.add_fixed_orientation_mobjects(azimuth_label)
+        self.camera.add_fixed_in_frame_mobjects(azimuth_label)
+        azimuth_label.shift(0.3 * DOWN + 0.3 * RIGHT)
         self.add(azimuth_angle)
         self.play(Create(active_line, run_time=0.5))
 
@@ -106,11 +111,11 @@ class SolarAngleScene(ThreeDScene):
             radius=0.5,
             color=GREEN,
         ).rotate(PI/2, about_point=ORIGIN, axis=np.array((-3, -6, 0)))
-        elevation_label = (MathTex(r'\text{Elevation }', r'\theta_{\text{el}}', color=GREEN, stroke_width=1.5)
+        elevation_label = (MathTex(r'\text{Elevation }', r'\theta_{el}', color=GREEN, stroke_width=1.5)
                            .scale(0.5)
                            .next_to(elevation_angle, axes.c2p(-3, -6, 5)[0], buff=0.5, aligned_edge=RIGHT))
-        elevation_label.shift(0.5 * LEFT + 0.5 * UP)
-        self.camera.add_fixed_orientation_mobjects(elevation_label)
+        self.camera.add_fixed_in_frame_mobjects(elevation_label)
+        elevation_label.shift(1.5 * UP + 0.5 * RIGHT)
         self.add(elevation_angle)
 
         def update_elevation_angle(m):
@@ -134,7 +139,7 @@ class SolarAngleScene(ThreeDScene):
         line_o_s = Line(observer.get_center(), sun.get_center(), color=GREEN)
         self.play(Transform(active_line, line_o_s, run_time=1))
         self.play(Write(elevation_label, run_time=0.5))
-        self.wait(2)
+        self.wait(1)
 
         # fade everything except the labels
         self.play(
@@ -150,7 +155,21 @@ class SolarAngleScene(ThreeDScene):
         )
         self.wait(1)
 
-    @staticmethod
-    def ask_abort():
-        if input('Abort? (y/n): ').lower() == 'y':
-            exit()
+        # transform labels into formulae
+        azimuth_formula = MathTex(r'''\cos\left(\frac{1}{2}-\theta_{az}\right)
+                                  =\sin(\phi)\cdot\sin(\theta_{dec})
+                                  +\cos(\phi)\cdot\cos(\theta_{dec})\cdot\cos(\theta_{ha})''',
+                                  color=RED, font_size=26)
+        self.add_fixed_in_frame_mobjects(azimuth_formula)
+        azimuth_formula.to_corner(UR)
+        self.play(Unwrite(azimuth_label, run_time=0.5), Write(azimuth_formula, run_time=0.5))
+        self.wait(0.5)
+
+        elevation_formula = MathTex(r'\sin(', r'\theta_{az}',
+                                    r')=\frac{-\cos\theta_{dec}\cdot\sin\theta_{ha}}{\cos{\theta_{el}}}',
+                                    color=GREEN, font_size=26)
+        self.add_fixed_in_frame_mobjects(elevation_formula)
+        elevation_formula.to_corner(UR)
+        elevation_formula.shift(DOWN)
+        self.play(Unwrite(elevation_label, run_time=0.5), Write(elevation_formula, run_time=0.5))
+        self.wait(2)
