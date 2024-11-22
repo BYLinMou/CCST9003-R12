@@ -451,4 +451,51 @@ class MyScene(ThreeDScene):
             ReplacementTransform(ray_vec, flat_ray_vec, run_time=0.5),
         )
 
+        self.wait(1)
+
+        self.play(
+            camera_zoom.animate(run_time=0.5).set_value(0.75),
+            Uncreate(flat_ray_vec, run_time=0.5),
+        )
+
+        sf_formula = MathTex(
+            r'\boldsymbol{\vec{S}}(\phi, \lambda) = \begin{cases}' 
+            r'\boldsymbol{\vec{0}} & \text{if observer is in shadow}\end{cases}' '\\\\'
+            r'\hat{r}\cdot\left[\begin{matrix}' 
+            '1 & 0 & 0\\\\0 & 1 & 0\\\\0 & 0 & 0' r'\end{matrix}\right] & \text{otherwise}'
+        ).set_z_index(7)
+        sf_formula_box = SurroundingRectangle(
+            sf_formula,
+            buff=MED_LARGE_BUFF,
+            color=GREEN,
+            stroke_width=3,
+            fill_color=GREEN_E,
+            fill_opacity=0.95
+        ).set_z_index(6)
+
+        self.play(
+            Write(sf_formula, run_time=0.5),
+            Create(sf_formula_box, run_time=0.5),
+        )
+
         self.wait(2)
+
+        further_use_group = VGroup(
+            MathTex(r'\boldsymbol{\vec{S}}\text{ can be further used to determine whether a point}'),
+            MathTex(r'\text{on the map is in shadow, or the direction of sunlight at that point.}')
+        ).set_z_index(7).arrange_submobjects(DOWN)
+        further_use_box = SurroundingRectangle(
+            further_use_group,
+            buff=MED_LARGE_BUFF,
+            color=GREEN,
+            stroke_width=3,
+            fill_color=GREEN_E,
+            fill_opacity=0.95
+        ).set_z_index(6)
+
+        self.play(
+            ReplacementTransform(sf_formula, further_use_group, run_time=0.5),
+            ReplacementTransform(sf_formula_box, further_use_box, run_time=0.5),
+        )
+
+        self.wait(3)
