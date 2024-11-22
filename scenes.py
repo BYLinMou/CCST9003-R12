@@ -177,7 +177,7 @@ class MyScene(ThreeDScene):
         azimuth_formula = MathTex(r'''\cos\left(\frac{1}{2}-\theta_{az}\right)
                                   =\sin(\phi)\cdot\sin(\theta_{dec})
                                   +\cos(\phi)\cdot\cos(\theta_{dec})\cdot\cos(\theta_{ha})''',
-                                  color=RED, font_size=22, background_stroke_color=RED_A, background_stroke_width=1.5)
+                                  color=RED, font_size=22, background_stroke_color=RED_E, background_stroke_width=1.5)
         self.add_fixed_in_frame_mobjects(azimuth_formula)
         azimuth_formula.to_corner(UR)
         self.play(Unwrite(azimuth_label, run_time=0.5), Write(azimuth_formula, run_time=0.5))
@@ -185,7 +185,7 @@ class MyScene(ThreeDScene):
 
         elevation_formula = MathTex(r'\sin(', r'\theta_{az}',
                                     r')=\frac{-\cos\theta_{dec}\cdot\sin\theta_{ha}}{\cos{\theta_{el}}}',
-                                    color=GREEN, font_size=22, background_stroke_color=GREEN_A, background_stroke_width=1.5)
+                                    color=GREEN, font_size=22, background_stroke_color=GREEN_E, background_stroke_width=1.5)
         self.add_fixed_in_frame_mobjects(elevation_formula)
         elevation_formula.to_corner(UR)
         elevation_formula.shift(DOWN)
@@ -203,7 +203,6 @@ class MyScene(ThreeDScene):
         self.set_camera_orientation(phi=PI/4, theta=-PI/6, zoom=0.75)
 
         # unpack from shared objects
-        print(shared_objs)
         axes, x_y_plane, x_label, y_label, sun, sun_projection, sun_label, observer, active_line, line_p_s, line_o_s,\
         line_o_p_copy, azimuth_formula, elevation_formula, azimuth_angle, elevation_angle = shared_objs
 
@@ -330,7 +329,7 @@ class MyScene(ThreeDScene):
             for lat, lon, h in row:
                 if h == 0:
                     continue
-                building = Prism(dimensions=(1, 1, h), fill_color=match_color(h*2), fill_opacity=0.3)
+                building = Prism(dimensions=(1, 1, h), fill_color=match_color(h*2), fill_opacity=0.2)
                 building.move_to(axes.c2p([lat, lon, 0])[0] + np.array([0, 0, h/2]))
                 buildings.add(building)
 
@@ -358,5 +357,98 @@ class MyScene(ThreeDScene):
         self.play(Indicate(ray_vec, color=YELLOW, run_time=1))
         self.wait(0.5)
         self.move_camera(zoom=0.5)
+
+        # construct a line
+        line_propagation = VGroup(
+            MathTex(r'\text{Construct a straight line from the observer }\\'),
+                    MathTex(r'\text{in the direction of }\hat{r}'
+                            r'\text{ all the way until the edge of the map.}')
+        ).set_z_index(7).arrange_submobjects(DOWN)
+        line_propagation_box = SurroundingRectangle(
+            line_propagation,
+            buff=MED_LARGE_BUFF,
+            color=RED,
+            stroke_width=3,
+            fill_color=RED_E,
+            fill_opacity=0.95
+        ).set_z_index(6)
+        self.add_fixed_in_frame_mobjects(line_propagation, line_propagation_box)
+        self.play(
+            Create(line_propagation_box, run_time=0.5),
+            Write(line_propagation, run_time=0.5),
+        )
+        self.wait(2)
+
+        self.play(
+            Uncreate(line_propagation_box, run_time=0.5),
+            Unwrite(line_propagation, run_time=0.5),
+        )
+        active_line.set_z_index(6).set(stroke_color=RED)
+        self.play(Create(active_line, run_time=0.5))
+
+        check_group = VGroup(
+            MathTex(r'\text{Look for intersections between the line and the buildings.}'),
+            MathTex(r'\text{Intersection indicates that the observer is in shadow.}')
+        ).set_z_index(7).arrange_submobjects(DOWN)
+        check_box = SurroundingRectangle(
+            check_group,
+            buff=MED_LARGE_BUFF,
+            color=RED,
+            stroke_width=3,
+            fill_color=RED_E,
+            fill_opacity=0.95
+        ).set_z_index(6)
+        check_group.apply_matrix(np.linalg.inv(self.camera.generate_rotation_matrix())).scale(2)
+        check_box.apply_matrix(np.linalg.inv(self.camera.generate_rotation_matrix())).scale(2)
+
+        self.play(
+            Create(check_box, run_time=0.5),
+            Write(check_group, run_time=0.5),
+        )
+
+        self.wait(2)
+
+        shadow_field_group = VGroup(
+            MathTex(r'\text{The field }\boldsymbol{H}\text{ is then transformed into}'),
+            MathTex(r'\text{ a vector shadow field }\boldsymbol{\vec{S}}\text{.}')
+        ).set_z_index(7).arrange_submobjects(DOWN)
+        shadow_field_box = SurroundingRectangle(
+            shadow_field_group,
+            buff=MED_LARGE_BUFF,
+            color=RED,
+            stroke_width=3,
+            fill_color=RED_E,
+            fill_opacity=0.95
+        ).set_z_index(6)
+
+        shadow_field_box.apply_matrix(np.linalg.inv(self.camera.generate_rotation_matrix())).scale(2)
+        shadow_field_group.apply_matrix(np.linalg.inv(self.camera.generate_rotation_matrix())).scale(2)
+
+        self.play(
+            ReplacementTransform(check_group, shadow_field_group, run_time=0.5),
+            ReplacementTransform(check_box, shadow_field_box, run_time=0.5),
+        )
+
+        self.wait(2)
+
+        # top-down view, buildings removed
+        trackers = self.camera.get_value_trackers()
+        camera_phi, camera_theta, camera_zoom = trackers[0], trackers[1], trackers[4]
+        flat_ray_vec = Arrow(
+            start=ray_vec.get_start(),
+            end=ray_vec.get_end(),
+            color=RED,
+            max_tip_length_to_length_ratio=0.3
+        )
+        self.play(
+            camera_phi.animate(run_time=0.5).set_value(0),
+            camera_theta.animate(run_time=0.5).set_value(-PI/2),
+            camera_zoom.animate(run_time=0.5).set_value(1.5),
+            Uncreate(buildings, run_time=0.5),
+            Uncreate(shadow_field_box, run_time=0.5),
+            Unwrite(shadow_field_group, run_time=0.5),
+            Uncreate(active_line, run_time=0.5),
+            ReplacementTransform(ray_vec, flat_ray_vec, run_time=0.5),
+        )
 
         self.wait(2)
