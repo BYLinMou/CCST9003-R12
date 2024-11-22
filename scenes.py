@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 import numpy as np
 from manim import *
 from scipy.fft import hfftn
@@ -272,8 +274,9 @@ class MyScene(ThreeDScene):
                 row_group = VGroup()
                 for entry in line.split():
                     lat, lon, h = map(float, entry.split(';'))
-                    row.append((lat, lon, h))
-                    nums[(lat, lon)] = (MathTex(f'{h:.2f}', color=match_color(h), stroke_width=1.5, font_size=30)
+                    h = h*0.5
+                    row.append((lat, lon, h)) # scale down height
+                    nums[(lat, lon)] = (MathTex(f'{h:.2f}', color=match_color(h * 2), stroke_width=1.5, font_size=30)
                                     .move_to(axes.c2p([lat, lon, 0])[0]))
                     row_group.add(nums[(lat, lon)])
                 self.play(Write(row_group, run_time=0.05))
@@ -300,7 +303,7 @@ class MyScene(ThreeDScene):
 
         # explain creation of ray vector
         ray_line_1 = MathTex(r'\text{From the observer, construct a ray vector }\hat{r}\text{ pointing to the Sun.}')
-        ray_line_2 = MathTex(r'\hat{r} = \left(\frac{1}{\sec\theta_{el}}\right)'
+        ray_line_2 = MathTex(r'\hat{r} = \left(\cos\theta_{el}\right)'
                              r'\left(\sin\theta_{az}\hat{\boldsymbol{i}}+\cos\theta_{az}\hat{\boldsymbol{j}}'
                              r'+\tan\theta_{el}\hat{\boldsymbol{k}}\right)')
         ray_group = VGroup(ray_line_1, ray_line_2).arrange_submobjects(DOWN)
@@ -319,6 +322,41 @@ class MyScene(ThreeDScene):
         self.wait(2)
 
         self.play(FadeOut(ray_box), FadeOut(ray_group))
-        self.move_camera(phi=PI/4, theta=-PI/6, zoom=0.5) # move camera far away
+        self.move_camera(phi=np.deg2rad(70), theta=-PI/4, zoom=0.5) # move camera far away
+
+        buildings = VGroup()
+        buildings.set_z_index(2)
+        for row in field:
+            for lat, lon, h in row:
+                if h == 0:
+                    continue
+                building = Prism(dimensions=(1, 1, h), fill_color=match_color(h*2), fill_opacity=0.3)
+                building.move_to(axes.c2p([lat, lon, 0])[0] + np.array([0, 0, h/2]))
+                buildings.add(building)
+
+        self.play(DrawBorderThenFill(buildings, run_time=1), FadeOut(VGroup(*nums.values()), run_time=0.5))
+
+        # put back Sun
+        sun.set_z_index(6)
+        self.play(FadeIn(sun, run_time=0.5), FadeIn(sun_projection, run_time=0.5))
+
+        # create ray vector
+        # angle objects values are inaccurate, manual calculation is adopted
+        azimuth = PI + np.arctan(3/6)
+        elevation = np.arctan(10/((3**2 + 6**2)**0.5))
+        ray_vec = Arrow3D(
+            start=observer.get_center(),
+            end=axes.c2p([
+                np.sin(azimuth)*np.cos(elevation),
+                np.cos(azimuth)*np.cos(elevation),
+                np.sin(elevation)
+            ])[0],
+            color=RED,
+        )
+        self.play(Create(ray_vec, run_time=0.5))
+        self.move_camera(zoom=3)
+        self.play(Indicate(ray_vec, color=YELLOW, run_time=1))
+        self.wait(0.5)
+        self.move_camera(zoom=0.5)
 
         self.wait(2)
