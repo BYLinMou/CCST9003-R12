@@ -1,13 +1,21 @@
 import numpy as np
 from manim import *
-from pydub.generators import Pulse
-
+from scipy.fft import hfftn
 
 # for presentation of the CCST9003 project
 
+# global vars
+shared_objs: list[Mobject] = [] # shared objects between scenes
+
 # SolarAngleScene: shows how the solar position is calculated
-class SolarAngleScene(ThreeDScene):
+class MyScene(ThreeDScene):
     def construct(self):
+        self.next_section(name='SolarAngleScene')
+        self.__solar_angle_scene()
+        self.next_section(name='HeightAndShadowFieldsScene')
+        self.__height_and_shadow_fields_scene()
+
+    def __solar_angle_scene(self):
         # look down at the x-y plane
         self.set_camera_orientation(phi=0, theta=-PI/2, zoom=0.75)
 
@@ -180,4 +188,137 @@ class SolarAngleScene(ThreeDScene):
         elevation_formula.to_corner(UR)
         elevation_formula.shift(DOWN)
         self.play(Unwrite(elevation_label, run_time=0.5), Write(elevation_formula, run_time=0.5))
+        self.wait(2)
+
+        # packup shared objects
+        shared_objs.extend([
+            axes, x_y_plane, x_label, y_label, sun, sun_projection, sun_label, observer, active_line, line_p_s, line_o_s,
+            line_o_p_copy, azimuth_formula, elevation_formula, azimuth_angle, elevation_angle
+        ])
+
+    def __height_and_shadow_fields_scene(self):
+        # adjust camera to match previous scene
+        self.set_camera_orientation(phi=PI/4, theta=-PI/6, zoom=0.75)
+
+        # unpack from shared objects
+        print(shared_objs)
+        axes, x_y_plane, x_label, y_label, sun, sun_projection, sun_label, observer, active_line, line_p_s, line_o_s,\
+        line_o_p_copy, azimuth_formula, elevation_formula, azimuth_angle, elevation_angle = shared_objs
+
+        self.add(axes, x_y_plane, x_label, y_label, sun, sun_projection, observer, active_line) # non-fixed objects
+        self.add_fixed_in_frame_mobjects(sun_label, azimuth_formula, elevation_formula) # fixed objects
+        self.play(
+            FadeOut(sun_label),
+            FadeOut(azimuth_formula),
+            FadeOut(elevation_formula),
+
+            # restore colors
+            FadeToColor(axes, WHITE),
+            FadeToColor(x_label, WHITE),
+            FadeToColor(y_label, WHITE),
+            FadeToColor(sun, YELLOW),
+            FadeToColor(sun_projection, YELLOW),
+            FadeToColor(observer, RED),
+            FadeToColor(active_line, GREEN),
+        )
+        self.play(
+            # remove unnecessary objects
+            FadeOut(azimuth_angle, run_time=0.5),
+            FadeOut(elevation_angle, run_time=0.5),
+
+            # temporarily hide objects
+            FadeOut(sun, run_time=0.5),
+            FadeOut(sun_projection, run_time=0.5),
+            FadeOut(active_line, run_time=0.5),
+            FadeOut(line_p_s, run_time=0.5),
+            FadeOut(line_o_s, run_time=0.5),
+            FadeOut(line_o_p_copy, run_time=0.5),
+        )
+
+        # move back to top-down view
+        self.move_camera(phi=0, theta=-PI/2)
+        self.play(
+            Unwrite(x_label, run_time=0.5),
+            Unwrite(y_label, run_time=0.5),
+        )
+
+        # generate a random height field
+        def get_height(lat, lon):
+            # leave the line y=-x, width of 2 as a road (height=0)
+            distance = np.abs(lat + lon) / (2 ** 0.5)
+            if distance <= 2:
+                return 0
+            return np.random.random() * 10
+
+        def match_color(height):
+            height = int(height)
+            if height in range(0, 2):
+                return BLUE_A
+            elif height in range(2, 4):
+                return BLUE_B
+            elif height in range(4, 6):
+                return BLUE_C
+            elif height in range(6, 8):
+                return BLUE_D
+            elif height in range(8, 10):
+                return BLUE_E
+
+        field = [] # 2D array of (lat, lon, height)
+        nums = {} # dictionary of (lat, lon) to MathTex
+        # read from file
+        with open('height_field.txt', 'r') as file:
+            for line in file:
+                row = []
+                row_group = VGroup()
+                for entry in line.split():
+                    lat, lon, h = map(float, entry.split(';'))
+                    row.append((lat, lon, h))
+                    nums[(lat, lon)] = (MathTex(f'{h:.2f}', color=match_color(h), stroke_width=1.5, font_size=30)
+                                    .move_to(axes.c2p([lat, lon, 0])[0]))
+                    row_group.add(nums[(lat, lon)])
+                self.play(Write(row_group, run_time=0.05))
+                field.append(row)
+
+        self.wait(0.5)
+
+        # explanatory text
+        hf_line_1 = MathTex(r'\text{Suppose we have a scalar field }\boldsymbol{H}\text{,}')
+        hf_line_2 = MathTex(r'\text{where }\boldsymbol{H}(\phi, \lambda)\text{ represents the height of a building at '
+                            r'latitude }\phi\text{ and longitude }\lambda\text{.}')
+        hf_group = VGroup(hf_line_1, hf_line_2).arrange_submobjects(DOWN, aligned_edge=LEFT)
+        hf_box = SurroundingRectangle(
+            hf_group,
+            buff=MED_LARGE_BUFF,
+            color=BLUE,
+            stroke_width=3,
+            fill_color=DARK_BLUE,
+            fill_opacity=0.95,
+        )
+        self.play(Create(hf_box, run_time=0.5), Write(hf_group, run_time=0.5))
+
+        self.wait(2)
+
+        # explain creation of ray vector
+        ray_line_1 = MathTex(r'\text{From the observer, construct a ray vector }\hat{r}\text{ pointing to the Sun.}')
+        ray_line_2 = MathTex(r'\hat{r} = \left(\frac{1}{\sec\theta_{el}}\right)'
+                             r'\left(\sin\theta_{az}\hat{\boldsymbol{i}}+\cos\theta_{az}\hat{\boldsymbol{j}}'
+                             r'+\tan\theta_{el}\hat{\boldsymbol{k}}\right)')
+        ray_group = VGroup(ray_line_1, ray_line_2).arrange_submobjects(DOWN)
+        ray_box = SurroundingRectangle(
+                ray_group,
+                buff=MED_LARGE_BUFF,
+                color=RED,
+                stroke_width=3,
+                fill_color=RED_E,
+                fill_opacity=0.95)
+        self.play(
+            ReplacementTransform(hf_group, ray_group, run_time=0.5),
+            ReplacementTransform(hf_box, ray_box, run_time=0.5),
+        )
+
+        self.wait(2)
+
+        self.play(FadeOut(ray_box), FadeOut(ray_group))
+        self.move_camera(phi=PI/4, theta=-PI/6, zoom=0.5) # move camera far away
+
         self.wait(2)
