@@ -460,9 +460,9 @@ class MyScene(ThreeDScene):
 
         sf_formula = MathTex(
             r'\boldsymbol{\vec{S}}(\phi, \lambda) = \begin{cases}' 
-            r'\boldsymbol{\vec{0}} & \text{if observer is in shadow}\end{cases}' '\\\\'
+            r'\boldsymbol{\vec{0}} & \text{if observer is in shadow}' '\\\\'
             r'\hat{r}\cdot\left[\begin{matrix}' 
-            '1 & 0 & 0\\\\0 & 1 & 0\\\\0 & 0 & 0' r'\end{matrix}\right] & \text{otherwise}'
+            '1 & 0 & 0\\\\0 & 1 & 0\\\\0 & 0 & 0' r'\end{matrix}\right] & \text{otherwise}\end{cases}'
         ).set_z_index(7)
         sf_formula_box = SurroundingRectangle(
             sf_formula,
