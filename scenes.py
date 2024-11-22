@@ -30,8 +30,8 @@ class MyScene(ThreeDScene):
         x_label = axes.get_x_axis_label(Text('East', color=WHITE).scale(0.6), buff=-0.75)
         y_label = axes.get_y_axis_label(Text('North', color=WHITE).scale(0.6), buff=-0.25)
         x_y_plane = NumberPlane(
-            x_range=[-20, 20, 2],
-            y_range=[-20, 20, 2],
+            x_range=[-30, 30, 2],
+            y_range=[-30, 30, 2],
             background_line_style={
                 "stroke_color": GREY,
             }
