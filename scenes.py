@@ -1,8 +1,8 @@
 from copy import deepcopy
 
+
 import numpy as np
 from manim import *
-from scipy.fft import hfftn
 
 # for presentation of the CCST9003 project
 
